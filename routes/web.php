@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+# Vue
+Route::any('{all}', function () {
+    return view('index');
+})
+->where(['all' => '.*']);
