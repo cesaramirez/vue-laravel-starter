@@ -18,5 +18,13 @@ mix
   .sourceMaps();
 
 mix.webpackConfig({
+  module: {
+    rules: [
+      {
+        test: /\.styl$/,
+        loader: ["style-loader", "css-loader", "stylus-loader"]
+      }
+    ]
+  },
   resolve: { alias: { "@": path.join(__dirname, "./resources/assets/js") } }
 });
