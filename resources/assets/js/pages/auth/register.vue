@@ -6,8 +6,19 @@
                     <div class="headline">Iniciar Sesión</div>
                     <small>Porfavor ingresar los datos del formulario siguiente para que puedas iniciar sesión en la aplicación.</small>
                 </v-card-title>
-                <v-form @submit.prevent="login">
+                <v-form @submit.prevent="register">
                   <v-card-text>
+                      <v-layout row>
+                          <v-flex xs12>
+                              <v-text-field
+                              v-model="form.name"
+                              name="name"
+                              label="Ingrese su Nombre"
+                              dark
+                              prepend-icon="mail"
+                              ></v-text-field>
+                          </v-flex>
+                      </v-layout>
                       <v-layout row>
                           <v-flex xs12>
                               <v-text-field
@@ -46,14 +57,16 @@ export default {
   layout: 'auth',
   data: () => ({
     form: {
+      name: '',
       email: '',
       password: '',
       remember: false
     },
   }),
   methods: {
-    login () {
-      this.$store.dispatch('auth/login', {
+    register () {
+      this.$store.dispatch('auth/register', {
+        name: this.form.name,
         email: this.form.email,
         password: this.form.password
       }).then( () => {

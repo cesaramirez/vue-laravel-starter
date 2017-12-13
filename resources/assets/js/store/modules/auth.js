@@ -51,6 +51,12 @@ export const actions = {
     dispatch("fetchUser");
   },
 
+  async register({ commit, dispatch }, payload) {
+    const { data } = await axios.post("/api/v1/auth/register", payload);
+    dispatch("saveToken", { token: data.access_token, remember: null });
+    dispatch("fetchUser");
+  },
+
   saveToken({ commit, dispatch }, payload) {
     commit(types.SAVE_TOKEN, payload);
   },

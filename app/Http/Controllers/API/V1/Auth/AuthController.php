@@ -6,17 +6,20 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use App\User;
 
 class AuthController extends Controller
 {
+    protected $user;
     /**
      * Create a new AuthController instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user)
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->user = $user;
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
@@ -35,6 +38,31 @@ class AuthController extends Controller
         }
 
         return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    /**
+     * Get a JWT token via given credentials.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request)
+    {
+        $user           = $this->user->fill($request->all());
+        $user->password = bcrypt($request->get('password'));
+
+        try {
+            $user->save();
+
+            $credentials = $request->only('email', 'password');
+        } catch (JWTException $e) {
+            return response()
+                ->json(['error' => 'could_not_create_token'], 500);
+        }
+        if ($token = $this->guard()->attempt($credentials)) {
+            return $this->respondWithToken($token);
+        }
     }
 
     /**
