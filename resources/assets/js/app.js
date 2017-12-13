@@ -1,5 +1,6 @@
 import Vue from "vue";
 import router from "@/router";
+import store from "@/store";
 import App from "@/components/App";
 import Vuetify from "vuetify";
 
@@ -10,5 +11,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
+  store,
   ...App
 });
