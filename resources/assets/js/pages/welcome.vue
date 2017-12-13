@@ -2,7 +2,7 @@
   <div>
     <div class="top-right links">
       <template v-if="authenticated">
-        <router-link to="/">
+        <router-link :to="{ name: 'home' }">
           Home
         </router-link>
       </template>

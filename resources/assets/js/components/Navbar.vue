@@ -1,19 +1,18 @@
 <template>
   <v-toolbar app dark color="primary">
-    <v-toolbar-side-icon></v-toolbar-side-icon>
-    <v-toolbar-title class="white--text">Title</v-toolbar-title>
+    <v-toolbar-title class="white--text">
+      <router-link :to="{ name: 'home' }">
+        <v-btn flat>
+          {{ appName }}
+        </v-btn>
+      </router-link>
+      </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn icon>
-      <v-icon>search</v-icon>
-    </v-btn>
-    <v-btn icon>
-      <v-icon>apps</v-icon>
-    </v-btn>
-    <v-btn icon>
-      <v-icon>refresh</v-icon>
+    <v-btn flat>
+      {{ user.name }}
     </v-btn>
     <v-tooltip bottom>
-      <v-btn icon @click="logout"  slot="activator">
+      <v-btn icon @click="logout" slot="activator">
         <v-icon>exit_to_app</v-icon>
       </v-btn>
       <span>Logout</span>
@@ -37,12 +36,10 @@ export default {
       await this.$store.dispatch("auth/logout");
 
       // Redirect to login.
-      this.$router.push({ name: "login" });
+      this.$router.push({
+        name: "login"
+      });
     }
   }
 };
 </script>
-
-<style scoped>
-
-</style>
