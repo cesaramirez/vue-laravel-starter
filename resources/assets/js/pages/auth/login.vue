@@ -57,7 +57,7 @@ export default {
         email: this.form.email,
         password: this.form.password
       }).then( () => {
-        this.$router.replace({ name: 'welcome' })
+        this.$router.replace({ name: 'home' })
       }).catch( () => {
         console.log('error')
       })

@@ -1,13 +1,21 @@
 <template>
-  <div class="app-layout">
-    <div class="container mt-4">
+  <v-app>
+  <navbar></navbar>
+  <v-content>
+    <v-container fluid>
       <child/>
-    </div>
-  </div>
+    </v-container>
+  </v-content>
+  <v-footer app></v-footer>
+</v-app>
 </template>
 
 <script>
+import Navbar from "@/components/Navbar";
 export default {
-  name: "app-layout"
+  name: "app-layout",
+  components: {
+    Navbar
+  }
 };
 </script>
