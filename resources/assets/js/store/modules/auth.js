@@ -47,19 +47,17 @@ export const mutations = {
 export const actions = {
   async login({ commit, dispatch }, payload) {
     const { data } = await axios.post("/api/v1/auth/login", payload);
-    dispatch('saveToken', data.access_token)
-    dispatch('fetchUser')
+    dispatch("saveToken", { token: data.access_token, remember: null });
+    dispatch("fetchUser");
   },
 
   saveToken({ commit, dispatch }, payload) {
-    console.log(payload)
     commit(types.SAVE_TOKEN, payload);
   },
 
   async fetchUser({ commit }) {
     try {
       const { data } = await axios.post("/api/v1/auth/me");
-
       commit(types.FETCH_USER_SUCCESS, { user: data });
     } catch (e) {
       commit(types.FETCH_USER_FAILURE);

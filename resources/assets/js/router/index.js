@@ -1,11 +1,18 @@
 import Vue from "vue";
+import store from "@/store";
 import routes from "./routes";
 import Router from "vue-router";
+import { sync } from "vuex-router-sync";
 
 Vue.use(Router);
 
+const routeMiddleware = resolveMiddleware(
+  require.context("./middleware", false, /.*\.js$/)
+);
+
 const router = make();
 
+sync(store, router);
 export default router;
 /**
  * Create a new router instance.
@@ -14,14 +21,29 @@ export default router;
  */
 function make() {
   const router = new Router({
+    scrollBehavior,
     mode: "history",
     routes: routes.map(beforeEnter)
   });
 
+  // Register before guard.
   router.beforeEach(async (to, from, next) => {
-    setLayout(router, to)
-    next()
-  })
+    if (!store.getters["auth/check"] && store.getters["auth/token"]) {
+      try {
+        await store.dispatch("auth/fetchUser");
+      } catch (e) {}
+    }
+
+    setLayout(router, to);
+    next();
+  });
+
+  // Register after hook.
+  router.afterEach((to, from) => {
+    router.app.$nextTick(() => {
+      router.app.$loading.finish();
+    });
+  });
 
   return router;
 }
@@ -32,12 +54,32 @@ function make() {
  * @param {Object} route
  * @param {Object}
  */
-function beforeEnter (route) {
+function beforeEnter(route) {
   if (route.children) {
-    route.children.forEach(beforeEnter)
+    route.children.forEach(beforeEnter);
   }
 
-  return route
+  if (!route.middleware) {
+    return route;
+  }
+
+  route.beforeEnter = (...args) => {
+    if (!Array.isArray(route.middleware)) {
+      route.middleware = [route.middleware];
+    }
+
+    route.middleware.forEach(middleware => {
+      if (typeof middleware === "function") {
+        middleware(...args);
+      } else if (routeMiddleware[middleware]) {
+        routeMiddleware[middleware](...args);
+      } else {
+        throw Error(`Undefined middleware [${middleware}]`);
+      }
+    });
+  };
+
+  return route;
 }
 
 /**
@@ -52,9 +94,47 @@ function setLayout(router, to) {
 
   if (component) {
     router.app.$nextTick(() => {
-
       // Set application layout.
       router.app.setLayout(component.layout || "");
     });
   }
+}
+
+/**
+ * @param  {Route} to
+ * @param  {Route} from
+ * @param  {Object|undefined} savedPosition
+ * @return {Object}
+ */
+function scrollBehavior (to, from, savedPosition) {
+  if (savedPosition) {
+    return savedPosition
+  }
+
+  const position = {}
+
+  if (to.hash) {
+    position.selector = to.hash
+  }
+
+  if (to.matched.some(m => m.meta.scrollToTop)) {
+    position.x = 0
+    position.y = 0
+  }
+
+  return position
+}
+
+/**
+ * @param  {Object} requireContext
+ * @return {Object}
+ */
+function resolveMiddleware (requireContext) {
+  return requireContext.keys()
+  .map(file =>
+    [file.replace(/(^.\/)|(\.js$)/g, ''), requireContext(file)]
+  )
+  .reduce((guards, [name, guard]) => (
+    { ...guards, [name]: guard.default }
+  ), {})
 }

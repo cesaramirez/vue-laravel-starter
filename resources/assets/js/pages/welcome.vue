@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="top-right links">
-      <template>
+      <template v-if="authenticated">
         <router-link to="/">
           Home
         </router-link>
       </template>
-      <template>
-        <router-link to="/">
+      <template v-else>
+        <router-link :to="{ name: 'login' }">
           Login
         </router-link>
         <router-link to="/">
@@ -33,13 +33,19 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  layout: 'default',
+  layout: "default",
 
   data: () => ({
     title: window.config.appName
+  }),
+
+  computed: mapGetters({
+    authenticated: "auth/check"
   })
-}
+};
 </script>
 
 <style scoped>

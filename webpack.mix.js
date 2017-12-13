@@ -1,5 +1,6 @@
 let path = require("path");
 let mix = require("laravel-mix");
+require("dotenv").config();
 
 /*
  |--------------------------------------------------------------------------
@@ -16,6 +17,8 @@ mix
   .js("resources/assets/js/app.js", "public/js")
   .sass("resources/assets/sass/app.scss", "public/css")
   .sourceMaps();
+
+mix.browserSync(process.env.APP_URL);
 
 mix.webpackConfig({
   module: {
