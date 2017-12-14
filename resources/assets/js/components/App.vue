@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <loading ref="loading"></loading>
+    <notification></notification>
     <transition name="page" mode="out-in">
       <component v-if="layout" :is="layout"></component>
     </transition>
@@ -9,6 +10,7 @@
 
 <script>
 import Loading from "./Loading";
+import Notification from "./Notification";
 // Load layout components dynamically.
 const requireContext = require.context("../layouts", false, /.*\.vue$/);
 
@@ -23,7 +25,8 @@ const layouts = requireContext
 export default {
   el: "#app",
   components: {
-    Loading
+    Loading,
+    Notification
   },
   data: () => ({
     layout: null,

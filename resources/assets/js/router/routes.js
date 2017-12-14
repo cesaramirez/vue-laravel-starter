@@ -4,11 +4,8 @@ export default [
   // Guest routes.
   ...middleware("guest", [
     { path: "/login", name: "login", component: require("@/pages/auth/login") },
-    {
-      path: "/register",
-      name: "register",
-      component: require("@/pages/auth/register")
-    }
+    { path: "/register", name: "register", component: require("@/pages/auth/register") },
+    { path: "/forgot", name: "forgot", component: require("@/pages/auth/password/email") },
   ]),
 
   // Authenticated routes.

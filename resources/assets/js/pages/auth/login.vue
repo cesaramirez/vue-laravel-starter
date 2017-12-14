@@ -32,6 +32,8 @@
                   </v-card-text>
                   <v-card-actions>
                       <v-btn flat type="submit">Ingresar</v-btn>
+                      <v-spacer></v-spacer>
+                      <v-btn flat :to="{ name: 'forgot' }">Forgot Your Password?</v-btn>
                   </v-card-actions>
                 </v-form>
             </v-card>
@@ -54,10 +56,6 @@ export default {
       this.$store.dispatch('auth/login', {
         email: this.form.email,
         password: this.form.password
-      }).then( () => {
-        this.$router.replace({ name: 'home' })
-      }).catch( () => {
-        console.log('error')
       })
     }
   }

@@ -46,15 +46,35 @@ export const mutations = {
 // actions
 export const actions = {
   async login({ commit, dispatch }, payload) {
-    const { data } = await axios.post("/api/v1/auth/login", payload);
-    dispatch("saveToken", { token: data.access_token, remember: null });
-    dispatch("fetchUser");
+    try {
+      const { data } = await axios.post("/api/v1/auth/login", payload);
+      dispatch("saveToken", { token: data.access_token, remember: null });
+      dispatch("fetchUser");
+      dispatch("noti", { message: "You are Log In!", type: "success" }, { root: true });
+    }catch(e) {
+      dispatch("noti", { message: "Error to Log In!", type: "error" }, { root: true });
+    }
   },
 
   async register({ commit, dispatch }, payload) {
-    const { data } = await axios.post("/api/v1/auth/register", payload);
-    dispatch("saveToken", { token: data.access_token, remember: null });
-    dispatch("fetchUser");
+    try {
+      const { data } = await axios.post("/api/v1/auth/register", payload);
+      dispatch("saveToken", { token: data.access_token, remember: null });
+      dispatch("fetchUser");
+      dispatch("noti", { message: "You are Log In!", type: "success" }, { root: true });
+    }
+    catch(e) {
+      dispatch("noti", { message: "Error to Log In!", type: "error" }, { root: true });
+    }
+  },
+
+  async forgot({ commit, dispatch }, payload) {
+    try {
+      const { data } = await axios.post("/api/v1/auth/password/email", payload);
+      dispatch("noti", { message: "Email send Succesfull!", type: "success" }, { root: true });
+    } catch (e) {
+      dispatch("noti", { message: "Email not send !", type: "error" }, { root: true });
+    }
   },
 
   saveToken({ commit, dispatch }, payload) {
