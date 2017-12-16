@@ -70,6 +70,7 @@ export const actions = {
   async register({ commit, dispatch }, payload) {
     try {
       const { data } = await axios.post("/api/v1/auth/register", payload);
+      console.log(data);
       dispatch("saveToken", {
         token: data.access_token,
         remember: null
@@ -94,13 +95,19 @@ export const actions = {
       const { data } = await axios.post("/api/v1/auth/password/email", payload);
       dispatch(
         "noti",
-        { message: "Email send Succesfull!", type: "success" },
+        {
+          message: "We have e-mailed your password reset link!",
+          type: "success"
+        },
         { root: true }
       );
     } catch (e) {
       dispatch(
         "noti",
-        { message: "Email not send !", type: "error" },
+        {
+          message: "We can't find a user with that e-mail address.",
+          type: "error"
+        },
         { root: true }
       );
     }
