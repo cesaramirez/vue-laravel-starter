@@ -3,9 +3,12 @@ import router from "@/router";
 import store from "@/store";
 import App from "@/components/App";
 import Vuetify from "vuetify";
-import "@/plugins";
+import VeeValidate from "vee-validate";
 
+import "@/plugins";
 import "@/components";
+
+Vue.use(VeeValidate);
 Vue.use(Vuetify);
 
 Vue.config.productionTip = false;

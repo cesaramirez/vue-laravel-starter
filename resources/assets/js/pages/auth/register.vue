@@ -51,28 +51,26 @@
 
 <script>
 export default {
-  layout: 'auth',
+  layout: "auth",
   data: () => ({
     form: {
-      name: '',
-      email: '',
-      password: '',
+      name: "",
+      email: "",
+      password: "",
       remember: false
-    },
+    }
   }),
   methods: {
-    register () {
-      this.$store.dispatch('auth/register', {
+    async register() {
+      await this.$store.dispatch("auth/register", {
         name: this.form.name,
         email: this.form.email,
         password: this.form.password
-      }).then( () => {
-        console.log('register')
-        this.$router.replace({ name: 'home' })
-      }).catch( () => {
-        console.log('error')
-      })
+      });
+
+      console.log('register')
+      this.$router.replace({ name: "home" });
     }
   }
-}
+};
 </script>

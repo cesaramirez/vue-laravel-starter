@@ -1,6 +1,6 @@
 <template>
    <v-layout align-center justify-center>
-        <v-flex xs12 sm8 md5>
+        <v-flex xs12 sm8 md4>
             <v-card>
                 <v-card-title primary-title>
                     <div class="headline">Iniciar Sesión</div>
@@ -13,8 +13,11 @@
                               <v-text-field
                               v-model="form.email"
                               name="email"
-                              label="Ingrese su Correo Electrónico"
+                              label="Email"
                               prepend-icon="mail"
+                              :error-messages="errors.collect('email')"
+                              v-validate="'required|email'"
+                              data-vv-name="email"
                               ></v-text-field>
                           </v-flex>
                       </v-layout>
@@ -23,9 +26,12 @@
                               <v-text-field
                               v-model="form.password"
                               name="password"
-                              label="Ingrese su Contraseña"
+                              label="Password"
                               type="password"
                               prepend-icon="vpn_key"
+                              :error-messages="errors.collect('password')"
+                              v-validate="'required|min:6'"
+                              data-vv-name="password"
                               ></v-text-field>
                           </v-flex>
                       </v-layout>
@@ -46,26 +52,29 @@
 
 <script>
 export default {
-  layout: 'auth',
+  layout: "auth",
   data: () => ({
     form: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       remember: false
-    },
+    }
   }),
   methods: {
-    async login () {
-
-      // Log in the user.
-      await this.$store.dispatch('auth/login', {
-        email: this.form.email,
-        password: this.form.password
-      })
-
-      // Redirect to home.
-      this.$router.replace({ name: 'home' })
+    login() {
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.$store
+            .dispatch("auth/login", {
+              email: this.form.email,
+              password: this.form.password
+            })
+            .then(() => {
+              this.$router.replace({ name: "home" });
+            })
+        }
+      });
     }
   }
-}
+};
 </script>

@@ -11,7 +11,7 @@ export const state = {
 
 // getters
 export const getters = {
-  noti: (state) => state.noti
+  noti: state => state.noti
 };
 
 // mutations

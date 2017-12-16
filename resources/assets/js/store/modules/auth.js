@@ -49,7 +49,7 @@ export const actions = {
     try {
       const { data } = await axios.post("/api/v1/auth/login", payload);
       dispatch("saveToken", {
-        token: data.access_token,
+        token: data.token,
         remember: null
       });
       await dispatch("fetchUser");
@@ -59,11 +59,13 @@ export const actions = {
         { root: true }
       );
     } catch (e) {
+      const error = e.response.data.errors;
       dispatch(
         "noti",
-        { message: "Error to Log In!", type: "error" },
+        { message: error.email[0], type: "error" },
         { root: true }
       );
+      throw e;
     }
   },
 
@@ -72,10 +74,10 @@ export const actions = {
       const { data } = await axios.post("/api/v1/auth/register", payload);
       console.log(data);
       dispatch("saveToken", {
-        token: data.access_token,
+        token: data.token,
         remember: null
       });
-      dispatch("fetchUser");
+      await dispatch("fetchUser");
       dispatch(
         "noti",
         { message: "You are Log In!", type: "success" },
@@ -123,7 +125,7 @@ export const actions = {
       );
     } catch (e) {
       dispatch(
-        "noti",
+        'noti',
         { message: "Email not send !", type: "error" },
         { root: true }
       );
@@ -146,10 +148,12 @@ export const actions = {
   updateUser({ commit }, payload) {
     commit(types.UPDATE_USER, payload);
   },
+
   async logout({ commit }) {
     try {
       await axios.post("/api/v1/auth/logout");
     } catch (e) {}
     commit(types.LOGOUT);
-  }
+  },
+
 };

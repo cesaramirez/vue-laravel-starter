@@ -19,51 +19,8 @@ class AuthController extends Controller
     public function __construct(User $user)
     {
         $this->user = $user;
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
-    /**
-     * Get a JWT token via given credentials.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-
-        if ($token = $this->guard()->attempt($credentials)) {
-            return $this->respondWithToken($token);
-        }
-
-        return response()->json(['error' => 'Unauthorized'], 401);
-    }
-
-    /**
-     * Get a JWT token via given credentials.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function register(Request $request)
-    {
-        $user           = $this->user->fill($request->all());
-        $user->password = bcrypt($request->get('password'));
-
-        try {
-            $user->save();
-
-            $credentials = $request->only('email', 'password');
-        } catch (JWTException $e) {
-            return response()
-                ->json(['error' => 'could_not_create_token'], 500);
-        }
-        if ($token = $this->guard()->attempt($credentials)) {
-            return $this->respondWithToken($token);
-        }
-    }
 
     /**
      * Get the authenticated User

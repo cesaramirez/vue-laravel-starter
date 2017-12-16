@@ -24,14 +24,16 @@ Route::group([
     'prefix' => 'v1/auth'
 
 ], function ($router) {
-    Route::post('login', 'AuthController@login');
-    Route::post('register', 'AuthController@register');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-
     Route::group(['middleware' => 'guest:api'], function () {
+        Route::post('login', 'LoginController@login');
+        Route::post('register', 'RegisterController@register');
         Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
         Route::post('password/reset', 'ResetPasswordController@reset');
+    });
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::post('logout', 'AuthController@logout');
+        Route::post('refresh', 'AuthController@refresh');
+        Route::post('me', 'AuthController@me');
     });
 });
