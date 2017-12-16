@@ -19,7 +19,7 @@
                       </v-layout>
                   </v-card-text>
                   <v-card-actions>
-                      <v-btn flat type="submit">Send Password Reset Link</v-btn>
+                      <v-btn flat type="submit" :loading="loading" block>Send Password Reset Link</v-btn>
                   </v-card-actions>
                 </v-form>
             </v-card>
@@ -34,6 +34,7 @@ export default {
 
   data: () => ({
     status: '',
+    loading: false,
     form: {
       email: ''
     }
@@ -41,18 +42,13 @@ export default {
 
   methods: {
     async send () {
+      this.loading = true;
       this.$store.dispatch('auth/forgot', {
         email: this.form.email
       }).then( () => {
+        this.loading = false
         this.form.email = ''
-      }).catch( () => {
-        console.log('error')
       })
-      // const { data } = await this.form.post('/api/password/email')
-
-      // this.status = data.status
-
-      // this.form.reset()
     }
   }
 }

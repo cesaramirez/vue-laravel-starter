@@ -48,32 +48,78 @@ export const actions = {
   async login({ commit, dispatch }, payload) {
     try {
       const { data } = await axios.post("/api/v1/auth/login", payload);
-      dispatch("saveToken", { token: data.access_token, remember: null });
-      dispatch("fetchUser");
-      dispatch("noti", { message: "You are Log In!", type: "success" }, { root: true });
-    }catch(e) {
-      dispatch("noti", { message: "Error to Log In!", type: "error" }, { root: true });
+      dispatch("saveToken", {
+        token: data.access_token,
+        remember: null
+      });
+      await dispatch("fetchUser");
+      dispatch(
+        "noti",
+        { message: "You are Log In!", type: "success" },
+        { root: true }
+      );
+    } catch (e) {
+      dispatch(
+        "noti",
+        { message: "Error to Log In!", type: "error" },
+        { root: true }
+      );
     }
   },
 
   async register({ commit, dispatch }, payload) {
     try {
       const { data } = await axios.post("/api/v1/auth/register", payload);
-      dispatch("saveToken", { token: data.access_token, remember: null });
+      dispatch("saveToken", {
+        token: data.access_token,
+        remember: null
+      });
       dispatch("fetchUser");
-      dispatch("noti", { message: "You are Log In!", type: "success" }, { root: true });
-    }
-    catch(e) {
-      dispatch("noti", { message: "Error to Log In!", type: "error" }, { root: true });
+      dispatch(
+        "noti",
+        { message: "You are Log In!", type: "success" },
+        { root: true }
+      );
+    } catch (e) {
+      dispatch(
+        "noti",
+        { message: "Error to Log In!", type: "error" },
+        { root: true }
+      );
     }
   },
 
   async forgot({ commit, dispatch }, payload) {
     try {
       const { data } = await axios.post("/api/v1/auth/password/email", payload);
-      dispatch("noti", { message: "Email send Succesfull!", type: "success" }, { root: true });
+      dispatch(
+        "noti",
+        { message: "Email send Succesfull!", type: "success" },
+        { root: true }
+      );
     } catch (e) {
-      dispatch("noti", { message: "Email not send !", type: "error" }, { root: true });
+      dispatch(
+        "noti",
+        { message: "Email not send !", type: "error" },
+        { root: true }
+      );
+    }
+  },
+
+  async reset({ commit, dispatch }, payload) {
+    try {
+      const { data } = await axios.post("/api/v1/auth/password/reset", payload);
+      dispatch(
+        "noti",
+        { message: data.status, type: "success" },
+        { root: true }
+      );
+    } catch (e) {
+      dispatch(
+        "noti",
+        { message: "Email not send !", type: "error" },
+        { root: true }
+      );
     }
   },
 
@@ -93,12 +139,10 @@ export const actions = {
   updateUser({ commit }, payload) {
     commit(types.UPDATE_USER, payload);
   },
-
   async logout({ commit }) {
     try {
       await axios.post("/api/v1/auth/logout");
     } catch (e) {}
-
     commit(types.LOGOUT);
   }
 };

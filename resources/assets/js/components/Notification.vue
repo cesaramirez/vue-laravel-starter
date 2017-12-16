@@ -1,12 +1,9 @@
 
 <template lang="html">
-<div>
     <v-snackbar :timeout="6000" :color="noti.type" multi-line v-model="noti.show">
-        {{ noti.message }}
-        <v-btn flat @click="noti.show = false" dark>Cerrar</v-btn>
+        <span v-text="noti.message"></span>
+        <v-btn flat @click="noti.show = false" dark>close</v-btn>
     </v-snackbar>
-</div>
-
 </template>
 
 <script>

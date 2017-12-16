@@ -3,6 +3,7 @@ import router from "@/router";
 import store from "@/store";
 import App from "@/components/App";
 import Vuetify from "vuetify";
+import "@/plugins";
 
 import "@/components";
 Vue.use(Vuetify);

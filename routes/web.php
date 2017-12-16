@@ -16,3 +16,7 @@ Route::any('{all}', function () {
     return view('app');
 })
 ->where(['all' => '.*']);
+
+Route::get('password/reset/{token}', function () {
+    return view('index');
+})->name('password.reset');

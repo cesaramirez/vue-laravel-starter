@@ -8,11 +8,13 @@
       </router-link>
       </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn flat>
-      {{ user.name }}
-    </v-btn>
+    <template v-if="user">
+      <v-btn flat>
+        {{ user.name }}
+      </v-btn>
+    </template>
     <v-tooltip bottom>
-      <v-btn icon @click="logout" slot="activator">
+      <v-btn icon @click.prevent="logout" slot="activator">
         <v-icon>exit_to_app</v-icon>
       </v-btn>
       <span>Logout</span>
@@ -30,13 +32,14 @@ export default {
   computed: mapGetters({
     user: "auth/user"
   }),
+
   methods: {
     async logout() {
       // Log out the user.
       await this.$store.dispatch("auth/logout");
 
       // Redirect to login.
-      this.$router.push({
+      this.$router.replace({
         name: "login"
       });
     }

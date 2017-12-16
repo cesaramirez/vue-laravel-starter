@@ -1,6 +1,6 @@
 <template>
    <v-layout align-center justify-center>
-        <v-flex xs12 sm12 md5>
+        <v-flex xs12 sm8 md5>
             <v-card>
                 <v-card-title primary-title>
                     <div class="headline">Iniciar Sesión</div>
@@ -31,9 +31,12 @@
                       </v-layout>
                   </v-card-text>
                   <v-card-actions>
-                      <v-btn flat type="submit">Ingresar</v-btn>
-                      <v-spacer></v-spacer>
-                      <v-btn flat :to="{ name: 'forgot' }">Forgot Your Password?</v-btn>
+                    <v-layout>
+                      <v-flex d-flex justify-space-between>
+                        <v-btn flat type="submit" :block="$vuetify.breakpoint.xsOnly">Ingresar</v-btn>
+                        <v-btn flat :to="{ name: 'forgot' }" color="primary" :block="$vuetify.breakpoint.xsOnly">Forgot Your Password?</v-btn>
+                      </v-flex>
+                    </v-layout>
                   </v-card-actions>
                 </v-form>
             </v-card>
@@ -52,11 +55,16 @@ export default {
     },
   }),
   methods: {
-    login () {
-      this.$store.dispatch('auth/login', {
+    async login () {
+
+      // Log in the user.
+      await this.$store.dispatch('auth/login', {
         email: this.form.email,
         password: this.form.password
       })
+
+      // Redirect to home.
+      this.$router.replace({ name: 'home' })
     }
   }
 }

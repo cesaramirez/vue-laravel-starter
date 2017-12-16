@@ -41,7 +41,7 @@
                       </v-layout>
                   </v-card-text>
                   <v-card-actions>
-                      <v-btn flat type="submit">Ingresar</v-btn>
+                      <v-btn flat type="submit" :block="$vuetify.breakpoint.xsOnly">Ingresar</v-btn>
                   </v-card-actions>
                 </v-form>
             </v-card>

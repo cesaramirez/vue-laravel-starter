@@ -6,6 +6,7 @@ export default [
     { path: "/login", name: "login", component: require("@/pages/auth/login") },
     { path: "/register", name: "register", component: require("@/pages/auth/register") },
     { path: "/forgot", name: "forgot", component: require("@/pages/auth/password/email") },
+    { path: '/password/reset/:token', name: 'password.reset', component: require('@/pages/auth/password/reset') }
   ]),
 
   // Authenticated routes.
