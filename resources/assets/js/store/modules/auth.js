@@ -65,7 +65,7 @@ export const actions = {
         { message: error.email[0], type: "error" },
         { root: true }
       );
-      throw e;
+      throw e
     }
   },
 
@@ -87,7 +87,7 @@ export const actions = {
         { root: true }
       );
     } catch (e) {
-      throw e;
+      throw e
     }
   },
 
@@ -103,14 +103,7 @@ export const actions = {
         { root: true }
       );
     } catch (e) {
-      dispatch(
-        "noti",
-        {
-          message: "We can't find a user with that e-mail address.",
-          type: "error"
-        },
-        { root: true }
-      );
+      throw e
     }
   },
 
@@ -123,11 +116,7 @@ export const actions = {
         { root: true }
       );
     } catch (e) {
-      dispatch(
-        "noti",
-        { message: "Email not send !", type: "error" },
-        { root: true }
-      );
+      throw e
     }
   },
 

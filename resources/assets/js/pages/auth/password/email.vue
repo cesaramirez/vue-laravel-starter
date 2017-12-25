@@ -12,8 +12,11 @@
                               <v-text-field
                               v-model="form.email"
                               name="email"
-                              label="Ingrese su Correo Electrónico"
+                              label="Email"
                               prepend-icon="mail"
+                              :error-messages="errors.collect('email')"
+                              v-validate="'required|email:server'"
+                              data-vv-name="email"
                               ></v-text-field>
                           </v-flex>
                       </v-layout>
@@ -28,28 +31,39 @@
 </template>
 
 <script>
-
 export default {
-  layout: 'auth',
+  layout: "auth",
 
   data: () => ({
-    status: '',
+    status: "",
     loading: false,
     form: {
-      email: ''
+      email: ""
     }
   }),
 
   methods: {
-    async send () {
-      this.loading = true;
-      this.$store.dispatch('auth/forgot', {
-        email: this.form.email
-      }).then( () => {
-        this.loading = false
-        this.form.email = ''
-      })
+    send() {
+      this.loading = true
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.$store
+            .dispatch("auth/forgot", {
+              email: this.form.email
+            })
+            .then(() => {
+              this.loading = false
+              this.$validator.clean()
+            })
+            .catch(e => {
+              this.loading = false
+              _.forEach(e.response.data.errors, (value, key) => {
+                this.errors.add(key, value[0]);
+              });
+            });
+        }
+      });
     }
   }
-}
+};
 </script>

@@ -4,7 +4,6 @@
             <v-card>
                 <v-card-title primary-title>
                     <div class="headline">Register</div>
-                    <small>Porfavor ingresar los datos del formulario siguiente para que puedas iniciar sesión en la aplicación.</small>
                 </v-card-title>
                 <v-form @submit.prevent="register">
                   <v-card-text>
@@ -64,7 +63,7 @@
                       </v-layout>
                   </v-card-text>
                   <v-card-actions>
-                      <v-btn flat type="submit" :block="$vuetify.breakpoint.xsOnly">Ingresar</v-btn>
+                      <v-btn flat type="submit" :block="$vuetify.breakpoint.xsOnly">Register</v-btn>
                   </v-card-actions>
                 </v-form>
             </v-card>
@@ -73,7 +72,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import _ from "lodash";
 export default {
   layout: "auth",
   data: () => ({
@@ -99,17 +98,17 @@ export default {
             })
             .then(() => {
               this.$router.replace({ name: "home" });
-            }).catch((e) => {
+            })
+            .catch(e => {
               _.forEach(e.response.data.errors, (value, key) => {
-                console.log(value[0], key)
-                this.errors.add(key, value[0])
-              })
+                this.errors.add(key, value[0]);
+              });
             });
         }
       });
     },
-    collect (field) {
-      return _errors[field][0]
+    collect(field) {
+      return _errors[field][0];
     }
   }
 };

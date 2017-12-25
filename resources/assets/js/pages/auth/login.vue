@@ -3,8 +3,7 @@
         <v-flex xs12 sm8 md4>
             <v-card>
                 <v-card-title primary-title>
-                    <div class="headline">Iniciar Sesión</div>
-                    <small>Porfavor ingresar los datos del formulario siguiente para que puedas iniciar sesión en la aplicación.</small>
+                    <div class="headline">Log In</div>
                 </v-card-title>
                 <v-form @submit.prevent="login">
                   <v-card-text>
@@ -39,7 +38,7 @@
                   <v-card-actions>
                     <v-layout>
                       <v-flex d-flex justify-space-between>
-                        <v-btn flat type="submit" :block="$vuetify.breakpoint.xsOnly">Ingresar</v-btn>
+                        <v-btn flat type="submit" :block="$vuetify.breakpoint.xsOnly">Log In</v-btn>
                         <v-btn flat :to="{ name: 'forgot' }" color="primary" :block="$vuetify.breakpoint.xsOnly">Forgot Your Password?</v-btn>
                       </v-flex>
                     </v-layout>
@@ -71,11 +70,11 @@ export default {
             })
             .then(() => {
               this.$router.replace({ name: "home" });
-            }).catch((e) => {
+            })
+            .catch(e => {
               _.forEach(e.response.data.errors, (value, key) => {
-                console.log(value[0], key)
-                this.errors.add(key, value[0])
-              })
+                this.errors.add(key, value[0]);
+              });
             });
         }
       });
