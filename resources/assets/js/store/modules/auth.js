@@ -72,23 +72,22 @@ export const actions = {
   async register({ commit, dispatch }, payload) {
     try {
       const { data } = await axios.post("/api/v1/auth/register", payload);
-      console.log(data);
+      const { data: { token } } = await axios.post(
+        "/api/v1/auth/login",
+        payload
+      );
       dispatch("saveToken", {
-        token: data.token,
+        token: token,
         remember: null
       });
-      await dispatch("fetchUser");
+      await dispatch("updateUser", { user: data });
       dispatch(
         "noti",
         { message: "You are Log In!", type: "success" },
         { root: true }
       );
     } catch (e) {
-      dispatch(
-        "noti",
-        { message: "Error to Log In!", type: "error" },
-        { root: true }
-      );
+      throw e;
     }
   },
 
@@ -125,7 +124,7 @@ export const actions = {
       );
     } catch (e) {
       dispatch(
-        'noti',
+        "noti",
         { message: "Email not send !", type: "error" },
         { root: true }
       );
@@ -154,6 +153,5 @@ export const actions = {
       await axios.post("/api/v1/auth/logout");
     } catch (e) {}
     commit(types.LOGOUT);
-  },
-
+  }
 };

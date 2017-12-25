@@ -13,8 +13,11 @@
                               <v-text-field
                               v-model="form.name"
                               name="name"
-                              label="Ingrese su Nombre"
-                              prepend-icon="mail"
+                              label="Name"
+                              prepend-icon="face"
+                              :error-messages="errors.collect('name')"
+                              v-validate="'required'"
+                              data-vv-name="name"
                               ></v-text-field>
                           </v-flex>
                       </v-layout>
@@ -23,8 +26,11 @@
                               <v-text-field
                               v-model="form.email"
                               name="email"
-                              label="Ingrese su Correo Electrónico"
+                              label="Email"
                               prepend-icon="mail"
+                              :error-messages="errors.collect('email')"
+                              v-validate="'required|email:server'"
+                              data-vv-name="email"
                               ></v-text-field>
                           </v-flex>
                       </v-layout>
@@ -33,9 +39,26 @@
                               <v-text-field
                               v-model="form.password"
                               name="password"
-                              label="Ingrese su Contraseña"
+                              label="Password"
                               type="password"
                               prepend-icon="vpn_key"
+                              :error-messages="errors.collect('password')"
+                              v-validate="'required|min:6'"
+                              data-vv-name="password"
+                              ></v-text-field>
+                          </v-flex>
+                      </v-layout>
+                      <v-layout row>
+                          <v-flex xs12>
+                              <v-text-field
+                              v-model="form.password_confirmation"
+                              name="password_confirmation"
+                              label="Password Confirmation"
+                              type="password"
+                              prepend-icon="vpn_key"
+                              :error-messages="errors.collect('password_confirmation')"
+                              v-validate="'required|min:6'"
+                              data-vv-name="password_confirmation"
                               ></v-text-field>
                           </v-flex>
                       </v-layout>
@@ -50,6 +73,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
   layout: "auth",
   data: () => ({
@@ -57,19 +81,35 @@ export default {
       name: "",
       email: "",
       password: "",
+      password_confirmation: "",
       remember: false
-    }
+    },
+    _errors: []
   }),
   methods: {
-    async register() {
-      await this.$store.dispatch("auth/register", {
-        name: this.form.name,
-        email: this.form.email,
-        password: this.form.password
+    register() {
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.$store
+            .dispatch("auth/register", {
+              name: this.form.name,
+              email: this.form.email,
+              password: this.form.password,
+              password_confirmation: this.form.password_confirmation
+            })
+            .then(() => {
+              this.$router.replace({ name: "home" });
+            }).catch((e) => {
+              _.forEach(e.response.data.errors, (value, key) => {
+                console.log(value[0], key)
+                this.errors.add(key, value[0])
+              })
+            });
+        }
       });
-
-      console.log('register')
-      this.$router.replace({ name: "home" });
+    },
+    collect (field) {
+      return _errors[field][0]
     }
   }
 };

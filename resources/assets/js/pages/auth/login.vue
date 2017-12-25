@@ -71,7 +71,12 @@ export default {
             })
             .then(() => {
               this.$router.replace({ name: "home" });
-            })
+            }).catch((e) => {
+              _.forEach(e.response.data.errors, (value, key) => {
+                console.log(value[0], key)
+                this.errors.add(key, value[0])
+              })
+            });
         }
       });
     }
