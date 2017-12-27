@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers\API\V1\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User;
 
 class AuthController extends Controller
 {
+    /**
+     * $user.
+     *
+     * @var \App\User
+     */
     protected $user;
+
     /**
      * Create a new AuthController instance.
-     *
-     * @return void
      */
     public function __construct(User $user)
     {
         $this->user = $user;
     }
 
-
     /**
-     * Get the authenticated User
+     * Get the authenticated User.
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -33,14 +33,13 @@ class AuthController extends Controller
     }
 
     /**
-     * Log the user out (Invalidate the token)
+     * Log the user out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout()
     {
         $this->guard()->logout();
-
 
         return response()->json(['message' => 'Successfully logged out']);
     }
@@ -58,7 +57,7 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param  string $token
+     * @param string $token
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -66,8 +65,8 @@ class AuthController extends Controller
     {
         return response()->json([
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60
+            'token_type'   => 'bearer',
+            'expires_in'   => $this->guard()->factory()->getTTL() * 60,
         ]);
     }
 
