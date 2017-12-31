@@ -4,7 +4,7 @@
             <v-card>
                 <v-card-title primary-title>
                   <v-flex justify-center hidden-sm-and-down>
-                    <img src="storage/logo.png" alt="" height="150px" class="text-xs-center" style="display: block; margin: 0 auto;" >
+                    <img src="/storage/logo.png" alt="Logo" height="150px" class="text-xs-center" style="display: block; margin: 0 auto;">
                     <h1 class="headline text-xs-center">Log In</h1>
                   </v-flex>
                   <v-flex justify-center hidden-md-and-up>
@@ -43,10 +43,10 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-layout>
-                      <v-flex xs6>
-                        <v-btn type="submit" color="primary" block>Log In</v-btn>
+                      <v-flex md12 lg6>
+                        <v-btn type="submit" color="primary" block :loading="loading">Log In</v-btn>
                       </v-flex>
-                      <v-flex xs6>
+                      <v-flex md12 lg6>
                         <v-btn flat :to="{ name: 'forgot' }" color="primary" block>Forgot Your Password?</v-btn>
                       </v-flex>
                     </v-layout>
@@ -61,6 +61,7 @@
 export default {
   layout: "auth",
   data: () => ({
+    loading: false,
     form: {
       email: "",
       password: "",
@@ -71,15 +72,18 @@ export default {
     login() {
       this.$validator.validateAll().then(result => {
         if (result) {
+          this.loading = true
           this.$store
             .dispatch("auth/login", {
               email: this.form.email,
               password: this.form.password
             })
             .then(() => {
+              this.loading = false
               this.$router.replace({ name: "home" });
             })
             .catch(e => {
+              this.loading = false
               _.forEach(e.response.data.errors, (value, key) => {
                 this.errors.add(key, value[0]);
               });

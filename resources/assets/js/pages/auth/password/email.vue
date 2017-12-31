@@ -3,7 +3,13 @@
         <v-flex xs12 sm8 md4>
             <v-card>
                 <v-card-title primary-title>
-                    <div class="headline">Reset Password</div>
+                  <v-flex justify-center hidden-sm-and-down>
+                    <img src="/storage/logo.png" alt="" height="150px" class="text-xs-center" style="display: block; margin: 0 auto;" >
+                    <h1 class="headline text-xs-center">Reset Password</h1>
+                  </v-flex>
+                  <v-flex justify-center hidden-md-and-up>
+                    <h1 class="headline text-xs-center">Reset Password</h1>
+                  </v-flex>
                 </v-card-title>
                 <v-form @submit.prevent="send">
                   <v-card-text>
@@ -22,7 +28,7 @@
                       </v-layout>
                   </v-card-text>
                   <v-card-actions>
-                      <v-btn flat type="submit" :loading="loading" block>Send Password Reset Link</v-btn>
+                      <v-btn color="primary" type="submit" :loading="loading" block>Send Password Reset Link</v-btn>
                   </v-card-actions>
                 </v-form>
             </v-card>
@@ -44,9 +50,9 @@ export default {
 
   methods: {
     send() {
-      this.loading = true
       this.$validator.validateAll().then(result => {
         if (result) {
+          this.loading = true
           this.$store
             .dispatch("auth/forgot", {
               email: this.form.email

@@ -3,7 +3,13 @@
         <v-flex xs12 sm8 md4>
             <v-card>
                 <v-card-title primary-title>
-                    <div class="headline">Reset Password</div>
+                  <v-flex justify-center hidden-sm-and-down>
+                    <img src="/storage/logo.png" alt="" height="150px" class="text-xs-center" style="display: block; margin: 0 auto;" >
+                    <h1 class="headline text-xs-center">Reset Password</h1>
+                  </v-flex>
+                  <v-flex justify-center hidden-md-and-up>
+                    <h1 class="headline text-xs-center">Reset Password</h1>
+                  </v-flex>
                 </v-card-title>
                 <v-form @submit.prevent="reset">
                   <v-card-text>
@@ -50,7 +56,7 @@
                       </v-layout>
                   </v-card-text>
                   <v-card-actions>
-                      <v-btn flat type="submit" :block="$vuetify.breakpoint.xsOnly">Reset Password</v-btn>
+                      <v-btn color="primary" type="submit" :loading="loading" block>Reset Password</v-btn>
                   </v-card-actions>
                 </v-form>
             </v-card>
@@ -63,6 +69,7 @@ export default {
   layout: "auth",
   data: () => ({
     status: "",
+    loading: false,
     form: {
       token: "",
       email: "",
@@ -73,18 +80,27 @@ export default {
 
   methods: {
     reset() {
-      this.$store
-        .dispatch("auth/reset", {
-          email: this.form.email,
-          password: this.form.password,
-          password_confirmation: this.form.password_confirmation,
-          token: this.$route.params.token
-        })
-        .catch(e => {
-          _.forEach(e.response.data.errors, (value, key) => {
-            this.errors.add(key, value[0]);
-          });
-        });
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.loading = true;
+          this.$store
+            .dispatch("auth/reset", {
+              email: this.form.email,
+              password: this.form.password,
+              password_confirmation: this.form.password_confirmation,
+              token: this.$route.params.token
+            })
+            .then(() => {
+              this.loading = false;
+            })
+            .catch(e => {
+              this.loading = false;
+              _.forEach(e.response.data.errors, (value, key) => {
+                this.errors.add(key, value[0]);
+              });
+            });
+        }
+      });
     }
   }
 };

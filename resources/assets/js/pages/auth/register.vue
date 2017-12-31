@@ -4,7 +4,7 @@
             <v-card>
                 <v-card-title primary-title>
                   <v-flex justify-center hidden-sm-and-down>
-                    <img src="storage/logo.png" alt="" height="150px" class="text-xs-center" style="display: block; margin: 0 auto;" >
+                    <img src="/storage/logo.png" alt="" height="150px" class="text-xs-center" style="display: block; margin: 0 auto;" >
                     <h1 class="headline text-xs-center">Register</h1>
                   </v-flex>
                   <v-flex justify-center hidden-md-and-up>
