@@ -1,6 +1,6 @@
 <template>
    <v-layout align-center justify-center>
-        <v-flex xs12 sm8 md4>
+        <v-flex xs12 sm12 md4>
             <v-card>
                 <v-card-title primary-title>
                   <v-flex justify-center hidden-sm-and-down>
@@ -42,11 +42,15 @@
                       </v-layout>
                   </v-card-text>
                   <v-card-actions>
-                    <v-layout>
-                      <v-flex md12 lg6>
+
+                    <v-layout row wrap>
+                      <v-flex xs12 class="ml-2 mb-2">
+                        <v-checkbox :label="'Remember Me'" v-model="remember" color="primary" hide-details></v-checkbox>
+                      </v-flex>
+                      <v-flex xs12 lg6>
                         <v-btn type="submit" color="primary" block :loading="loading">Log In</v-btn>
                       </v-flex>
-                      <v-flex md12 lg6>
+                      <v-flex xs12 lg6>
                         <v-btn flat :to="{ name: 'forgot' }" color="primary" block>Forgot Your Password?</v-btn>
                       </v-flex>
                     </v-layout>
@@ -65,8 +69,8 @@ export default {
     form: {
       email: "",
       password: "",
-      remember: false
-    }
+    },
+    remember: false
   }),
   methods: {
     login() {
@@ -76,7 +80,8 @@ export default {
           this.$store
             .dispatch("auth/login", {
               email: this.form.email,
-              password: this.form.password
+              password: this.form.password,
+              remember: this.remember
             })
             .then(() => {
               this.loading = false

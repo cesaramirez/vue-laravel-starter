@@ -17,7 +17,6 @@
       absolute
     >
       <v-list class="pa-1">
-
         <img src="/storage/logo.png" height="150" style="display: block; margin: 0 auto;"/>
       </v-list>
       <v-list class="pt-0" dense>

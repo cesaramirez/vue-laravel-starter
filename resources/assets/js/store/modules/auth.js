@@ -48,9 +48,10 @@ export const actions = {
   async login({ commit, dispatch }, payload) {
     try {
       const { data } = await axios.post("/api/v1/auth/login", payload);
+      console.log(payload)
       dispatch("saveToken", {
         token: data.token,
-        remember: null
+        remember: payload.remember
       });
       await dispatch("fetchUser");
       dispatch(
