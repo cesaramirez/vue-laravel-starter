@@ -3,7 +3,13 @@
         <v-flex xs12 sm8 md4>
             <v-card>
                 <v-card-title primary-title>
-                    <div class="headline">Log In</div>
+                  <v-flex justify-center hidden-sm-and-down>
+                    <img src="storage/logo.png" alt="" height="150px" class="text-xs-center" style="display: block; margin: 0 auto;" >
+                    <h1 class="headline text-xs-center">Log In</h1>
+                  </v-flex>
+                  <v-flex justify-center hidden-md-and-up>
+                    <h1 class="headline text-xs-center">Log In</h1>
+                  </v-flex>
                 </v-card-title>
                 <v-form @submit.prevent="login">
                   <v-card-text>
@@ -37,9 +43,11 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-layout>
-                      <v-flex d-flex justify-space-between>
-                        <v-btn flat type="submit" :block="$vuetify.breakpoint.xsOnly">Log In</v-btn>
-                        <v-btn flat :to="{ name: 'forgot' }" color="primary" :block="$vuetify.breakpoint.xsOnly">Forgot Your Password?</v-btn>
+                      <v-flex xs6>
+                        <v-btn type="submit" color="primary" block>Log In</v-btn>
+                      </v-flex>
+                      <v-flex xs6>
+                        <v-btn flat :to="{ name: 'forgot' }" color="primary" block>Forgot Your Password?</v-btn>
                       </v-flex>
                     </v-layout>
                   </v-card-actions>

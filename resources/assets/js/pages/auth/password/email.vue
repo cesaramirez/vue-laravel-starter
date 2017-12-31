@@ -1,6 +1,6 @@
 <template>
    <v-layout align-center justify-center>
-        <v-flex xs12 sm12 md5>
+        <v-flex xs12 sm8 md4>
             <v-card>
                 <v-card-title primary-title>
                     <div class="headline">Reset Password</div>

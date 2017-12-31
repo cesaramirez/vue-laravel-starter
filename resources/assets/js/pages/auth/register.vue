@@ -1,9 +1,15 @@
 <template>
    <v-layout align-center justify-center>
-        <v-flex xs12 sm12 md5>
+        <v-flex xs12 sm8 md4>
             <v-card>
                 <v-card-title primary-title>
-                    <div class="headline">Register</div>
+                  <v-flex justify-center hidden-sm-and-down>
+                    <img src="storage/logo.png" alt="" height="150px" class="text-xs-center" style="display: block; margin: 0 auto;" >
+                    <h1 class="headline text-xs-center">Register</h1>
+                  </v-flex>
+                  <v-flex justify-center hidden-md-and-up>
+                    <h1 class="headline text-xs-center">Register</h1>
+                  </v-flex>
                 </v-card-title>
                 <v-form @submit.prevent="register">
                   <v-card-text>
@@ -63,7 +69,7 @@
                       </v-layout>
                   </v-card-text>
                   <v-card-actions>
-                      <v-btn flat type="submit" :block="$vuetify.breakpoint.xsOnly">Register</v-btn>
+                      <v-btn color="primary" type="submit" block>Register</v-btn>
                   </v-card-actions>
                 </v-form>
             </v-card>

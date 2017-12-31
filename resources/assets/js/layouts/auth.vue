@@ -7,9 +7,9 @@
       <v-btn flat :to="{ name: 'login' }" exact>Login</v-btn>
       <v-btn flat :to="{ name: 'register' }" exact>Register</v-btn>
     </v-toolbar>
-    <v-container fill-height fluid>
-      <child/>
-    </v-container>
+      <v-container fill-height fluid class="blue darken-2">
+        <child/>
+      </v-container>
   </v-app>
 </template>
 
