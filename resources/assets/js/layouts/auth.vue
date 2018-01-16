@@ -8,7 +8,7 @@
         <v-btn flat :to="{ name: 'login' }" exact>Login</v-btn>
         <v-btn flat :to="{ name: 'register' }" exact>Register</v-btn>
       </v-toolbar-items>
-      <v-toolbar-side-icon class="hidden-sm-and-up" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon class="hidden-md-and-up" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
     </v-toolbar>
     <v-navigation-drawer
       temporary
