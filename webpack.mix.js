@@ -1,6 +1,5 @@
 let path = require("path");
 let mix = require("laravel-mix");
-let glob = require("glob-all");
 require("dotenv").config();
 
 /*
