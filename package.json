@@ -11,12 +11,12 @@
     },
     "devDependencies": {
         "browser-sync": "^2.18.13",
-        "browser-sync-webpack-plugin": "^1.2.0",
+        "browser-sync-webpack-plugin": "^2.*",
         "cross-env": "^5.1",
-        "dotenv": "^4.0.0",
+        "dotenv": "^5.0.0",
         "eslint": "^4.14.0",
         "eslint-plugin-vue": "^4.0.1",
-        "laravel-mix": "^1.7.2",
+        "laravel-mix": "^2.*",
         "lodash": "^4.17.4"
     },
     "dependencies": {
