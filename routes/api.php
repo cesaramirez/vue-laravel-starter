@@ -20,8 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group([
 
     'middleware' => 'api',
-    'namespace' => 'API\V1\Auth',
-    'prefix' => 'v1/auth'
+    'namespace'  => 'API\V1\Auth',
+    'prefix'     => 'v1/auth',
 
 ], function ($router) {
     Route::group(['middleware' => 'guest:api'], function () {
