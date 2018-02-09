@@ -11,7 +11,7 @@
 |
 */
 
-# Vue
+// Vue
 Route::any('{all}', function () {
     return view('app');
 })
