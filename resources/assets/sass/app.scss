@@ -1,6 +1,9 @@
 
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons");
+.error--text {
+  color: #f2994A;
+}
 @import '~vuetify/dist/vuetify.min.css';
 @import 'transitions';
 
