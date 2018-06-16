@@ -4,7 +4,12 @@
             <v-card>
                 <v-card-title primary-title>
                   <v-flex justify-center hidden-sm-and-down>
-                    <img src="/storage/logo.png" alt="Logo" height="150px" class="text-xs-center" style="display: block; margin: 0 auto;">
+                    <img
+                      src="/storage/logo.png"
+                      alt="Logo"
+                      height="150px"
+                      class="text-xs-center"
+                      style="display: block; margin: 0 auto;">
                     <h1 class="headline text-xs-center">Log In</h1>
                   </v-flex>
                   <v-flex justify-center hidden-md-and-up>
@@ -16,13 +21,13 @@
                       <v-layout row>
                           <v-flex xs12>
                               <v-text-field
-                              v-model="form.email"
-                              name="email"
-                              label="Email"
-                              prepend-icon="mail"
-                              :error-messages="errors.collect('email')"
-                              v-validate="'required|email'"
-                              data-vv-name="email"
+                                v-model="form.email"
+                                name="email"
+                                label="Email"
+                                prepend-icon="mail"
+                                :error-messages="errors.collect('email')"
+                                v-validate="'required|email'"
+                                data-vv-name="email"
                               ></v-text-field>
                           </v-flex>
                       </v-layout>
@@ -68,7 +73,7 @@ export default {
     loading: false,
     form: {
       email: "",
-      password: "",
+      password: ""
     },
     remember: false
   }),
@@ -76,7 +81,7 @@ export default {
     login() {
       this.$validator.validateAll().then(result => {
         if (result) {
-          this.loading = true
+          this.loading = true;
           this.$store
             .dispatch("auth/login", {
               email: this.form.email,
@@ -84,11 +89,11 @@ export default {
               remember: this.remember
             })
             .then(() => {
-              this.loading = false
+              this.loading = false;
               this.$router.replace({ name: "home" });
             })
             .catch(e => {
-              this.loading = false
+              this.loading = false;
               _.forEach(e.response.data.errors, (value, key) => {
                 this.errors.add(key, value[0]);
               });
